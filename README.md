@@ -141,4 +141,4 @@
   * Calculate the number of possible scenarios for obtaining `k` successes in `n`: `choose(n, k)`
   * Calculate the probability of a given number of successes in a given number of trials: `sum(dbinom(k:n, n, p))`
   * Calculate the expected number of successes in a given number of binomial trials `μ = n * p` and its standard deviation `σ = sqrt(n * p * (1 − p))` (see `bitono` function)
-  * With a sufficiently large number of trials (np ≥ 10 and n(1−p) ≥ 10), use the normal approximation to calculate binomial probabilities (converting the binomial distribution in question to the normal distribution via `bitono` function)
+  * With a sufficiently large number of trials (n * p ≥ 10 and n * (1 − p) ≥ 10), use the normal approximation to calculate binomial probabilities (converting the binomial distribution in question to the normal distribution via `bitono` function)
