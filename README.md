@@ -6,12 +6,16 @@
 
 ### Variables
 
-  * Variables, numerical or categorical, quantitative or qualitative:
-    * If the variable is numerical, further classify it as **continuous** or **discrete** based on whether or not the variable can take on an infinite number of values or only non-negative whole numbers, respectively.
-    * If the variable is categorical, determine if it is **ordinal** based on whether or not the levels have a natural ordering.
+  * Variables, numerical or categorical (quantitative or qualitative):
+    * Define a **numerical** variable is an observed response that is a numerical value
+      * If the variable is numerical, further classify it as **continuous** or **discrete** based on whether or not the variable can take on an infinite number of values or only non-negative whole numbers, respectively.
+    * Define a categorical variable is a variable that can take on one of a limited, and usually fixed, number of possible values, thus assigning each individual to a particular group or "category."
+      * If the variable is categorical, determine if it is **ordinal** based on whether or not the levels have a natural ordering.
+
   * Variables, associated or independent:
     *  Define **associated** variables as variables that show some relationship with one another. Further categorize this relationship as positive or negative association, when possible.
     * Define variables that are not associated as independent.
+
   * Variables, explanatory or response:
     * Identify the **explanatory** variable in a pair of variables as the variable suspected of affecting the other. The affected variable is called a **response** variable. However, note that labeling variables as explanatory and response does not guarantee that the relationship between the two is actually causal, even if there is an association identified between the two variables.
 
@@ -116,6 +120,7 @@
     * _Joint_ probability:  p(A and B).  The probability of event A and event B occurring.  It is the probability of the intersection of two or more events.  The probability of the intersection of A and B may be written p(A ∩ B). Example:  the probability that a card is a four and red =p(four and red) = 2/52=1/26.  (There are two red fours in a deck of 52, the 4 of hearts and the 4 of diamonds)
     * _Conditional_ probability:  p(A|B) is the probability of event A occurring, given that event B occurs. Example:  given that you drew a red card, what’s the probability that it’s a four (p(four|red))=2/26=1/13.  So out of the 26 red cards (given a red card), there are two fours so 2/26=1/13
   * Understand Bayes' Theorem: `P(A|B) = P(A and B) / P(B)` (thus, `P(A and B) = P(A|B) * P(B)` (see above))
+    * Or: *conditional* = *joint_of_both* / *marginal_of_this_condition*
     * [Breast cancer](http://sites.nicholas.duke.edu/statsreview/probability/jmc/) [test](http://www.bbc.com/news/magazine-28166019) example
 
 ### Normal distribution
@@ -139,6 +144,69 @@
     * The _probability of a success_, `p`, is the same for each trial. 
   * Build a binomial distribution: `rbinom(n, SIZE, p)` (compare to `rnorm(SIZE, μ, σ)`)
   * Calculate the number of possible scenarios for obtaining `k` successes in `n`: `choose(n, k)`
-  * Calculate the probability of a given number of successes in a given number of trials: `sum(dbinom(k:n, n, p))`
+  * Calculate the probability of a given number of successes in a given number of trials: `pbinom(k-1, n, p, lower.tail = F)` or `sum(dbinom(k:n, n, p))`
   * Calculate the expected number of successes in a given number of binomial trials `μ = n * p` and its standard deviation `σ = sqrt(n * p * (1 − p))` (see `bitono` function)
   * With a sufficiently large number of trials (n * p ≥ 10 and n * (1 − p) ≥ 10), use the normal approximation to calculate binomial probabilities (converting the binomial distribution in question to the normal distribution via `bitono` function)
+
+## Week 3
+
+### Sample statistics
+
+  * Define **sample statistic** as a *point estimate* for a population parameter, for example, the sample mean is used to estimate the population mean, and note that point estimate and sample statistic are synonymous
+  * Recognize that *point estimates* (such as the sample mean) will vary from one sample to another, and define this variability as **sampling variability** (sometimes also called sampling variation)
+  * Calculate the sampling variability of the mean, the **standard error**, as `SE = σ / sqrt(n)` where `σ` is the population standard deviation
+    * Note that when the population standard deviation `σ` is not known (almost always), the standard error SE can be estimated using the sample standard deviation `s`, so that `SE = s / sqrt(n)`
+  * Distinguish *standard deviation* (`σ` or `s`) and *standard error* (`SE`): standard deviation measures the variability in the data, while standard error measures the variability in point estimates (aka sample statistics) from different samples of the same size and from the same population, i.e. measures the sampling variability
+
+### Confidence levels and Confidence intervals
+
+  * Define a **confidence interval** as the plausible range of values for a population parameter
+  * Define the **confidence level** as the *percentage of random samples* which yield confidence intervals that capture the true population parameter
+
+  * Recognize that the Central Limit Theorem (CLT) is about the distribution of *point estimates*, and that given certain conditions, this distribution will be nearly normal
+    * In the case of the mean the CLT tells us that
+        * if the sample size is sufficiently large (n ≥ 30 or larger if the data are considerably skewed - but less than 10%), or the population is known to have a normal distribution (when the population distribution is unknown, the condition skewness can be checked using a histogram or some other visualization of the distribution of the observed data in the sample)
+        * and the observations in the sample are independent (either *randomly sampled* (in the case of observational studies) or *randomly assigned* (in the case of experiments))
+        * then the distribution of the sample mean will be nearly normal, centered at the true population mean and with a spread of standard error: `x_hat ~ N (mean = μ, SE =  σ / sqrt(n)`
+
+  * Recognize that the nearly normal distribution of the point estimate (as suggested by the CLT) implies that a **confidence interval** can be calculated as `point_estimate ± z⋆ * SE` (note that `z⋆` is always positive ; see `SI.confidence_intreval` function)
+    * For means this is: `x_hat ± z⋆ * σ / sqrt(n)`
+  * Define **margin of error** as the *distance* required to travel in either direction away from the point estimate when constructing a confidence interval, i.e. `z⋆ * σ / sqrt(n)`
+
+  * Finally, interpret a **confidence interval** as “We are XX% confident that the true population parameter is in this interval”, where XX% is the desired **confidence level**
+
+### Hypothesis testing
+
+  *  Recognize that in *hypothesis testing* we evaluate two competing claims:
+    * the *null hypothesis*, which represents a skeptical perspective or the status quo, and 
+    * the *alternative hypothesis*, which represents an alternative under consideration and is often represented by a range of possible parameter values
+
+  * Construction of hypotheses:
+    * Always construct hypotheses about population parameters (e.g. population mean, `μ`) and not the sample statistics (e.g. sample mean, `x_hat`). Note that the population parameter is unknown while the sample statistic is measured using the observed data and hence there is no point in hypothesizing about it. 
+    * Define the null value as the value the parameter is set to equal in the null hypothesis. 
+    * Note that the alternative hypothesis might be one-sided (μ < or > the null value) or two-sided (μ ≠ the null value), and the choice depends on the research question
+
+  * Define a **p-value** as the conditional probability of obtaining a sample statistic at least as extreme as the one observed given that the null hypothesis is true: `p−value = P(observed or more extreme sample statistic | H0 true)`
+  * Calculate a **p-value** as the area under the normal curve beyond the observed sample mean (either in one tail or both, depending on the alternative hypothesis). Note that in doing so you can use a *Z-score*, where `Z = (point estimate − null value) / SE` or `Z = (x_hat - μ) / SE` (see `SI.zscore` and `SI.pvalue` functions)
+  * Infer that if a **confidence interval** does not contain the null value the null hypothesis should be rejected in favor of the alternative
+  * Compare the **p-value** to the significance level to make a decision between the hypotheses:
+    * If the p-value *is less than the significance level*, reject the null hypothesis since this means that obtaining a sample statistic at least as extreme as the observed data is extremely unlikely to happen just by chance, and conclude that the data provides evidence for the alternative hypothesis
+    * If the p-value *is more the significance level*, fail to reject the null hypothesis since this means that obtaining a sample statistic at least as extreme as the observed data is quite likely to happen by chance, and conclude that the data does not provide evidence for the alternative hypothesis.
+    * Note that we can never "accept" the null hypothesis since the hypothesis testing framework does not allow us to confirm it
+
+  * Note that the conclusion of a hypothesis test might be erroneous regardless of the decision we make
+    * Define a **Type 1 error** as rejecting the null hypothesis when the null hypothesis is actually true
+    * Define a **Type 2 error** as failing to reject the null hypothesis when the alternative hypothesis is actually true
+        * Define **power** as the probability of correctly rejecting the null hypothesis (complement of Type 2 error)
+
+  * Note that the probability of making a *Type 1 error* is equivalent to the *significance level*, and therefore choose a significance level depending on the risks associated with Type 1 and Type 2 errors:
+    * Use a smaller α if Type 1 error is relatively riskier 
+    * Use a larger α if Type 2 error is relatively riskier
+
+> * Formulate the framework for statistical inference using hypothesis testing and nearly normal point estimates:
+    * Set up the hypotheses first in plain language and then using appropriate notation
+    * Identify the appropriate sample statistic that can be used as a point estimate for the parameter of interest
+    * Verify that the conditions for the CLT hold (if the conditions necessary for the CLT to hold are not met, note this and do not go forward with the analysis)
+    * Compute the SE, sketch the sampling distribution, and shade area(`s`) representing the `p-value`
+    * Using the sketch and the normal model, calculate the p-value and determine if the null hypothesis should be rejected or not, and state your conclusion in context of the data and the research question
+
