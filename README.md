@@ -67,6 +67,7 @@
         * Center: **mean** (the arithmetic average), **median** (the midpoint), **mode** (the most frequent observation)
             * If median is larger than mean, then left skewness is possible
             * If mean is larger than median, then right skewness is possible
+            * In [other words]("pics/skewness.png"), the mean is right of the median under right skew, and left of the median under left skew
         * Spread: **standard deviation** (variability around the mean), **range** (max-min), **interquartile range** (middle 50% of the distribution)
     *  Identify the shape of a distribution as _symmetric_, _right skewed_, or _left skewed_, and _unimodal_, _bimodoal_, _multimodal_, or _uniform_.
     * Use _histograms_ and _box plots_ to visualize the shape, center, and spread of numerical distributions, and intensity maps for visualizing the spatial distribution of the data
@@ -167,10 +168,10 @@
     * In the case of the mean the CLT tells us that
         * if the sample size is sufficiently large (n ≥ 30 or larger if the data are considerably skewed - but less than 10%), or the population is known to have a normal distribution (when the population distribution is unknown, the condition skewness can be checked using a histogram or some other visualization of the distribution of the observed data in the sample)
         * and the observations in the sample are independent (either *randomly sampled* (in the case of observational studies) or *randomly assigned* (in the case of experiments))
-        * then the distribution of the sample mean will be nearly normal, centered at the true population mean and with a spread of standard error: `x_hat ~ N (mean = μ, SE =  σ / sqrt(n)`
+        * then the distribution of the sample mean will be nearly normal, centered at the true population mean and with a spread of standard error: `x_bar ~ N (mean = μ, SE =  σ / sqrt(n)`
 
   * Recognize that the nearly normal distribution of the point estimate (as suggested by the CLT) implies that a **confidence interval** can be calculated as `point_estimate ± z⋆ * SE` (note that `z⋆` is always positive ; see `SI.confidence_intreval` function)
-    * For means this is: `x_hat ± z⋆ * σ / sqrt(n)`
+    * For means this is: `x_bar ± z⋆ * σ / sqrt(n)`
   * Define **margin of error** as the *distance* required to travel in either direction away from the point estimate when constructing a confidence interval, i.e. `z⋆ * σ / sqrt(n)`
 
   * Finally, interpret a **confidence interval** as “We are XX% confident that the true population parameter is in this interval”, where XX% is the desired **confidence level**
@@ -182,12 +183,13 @@
     * the *alternative hypothesis*, which represents an alternative under consideration and is often represented by a range of possible parameter values
 
   * Construction of hypotheses:
-    * Always construct hypotheses about population parameters (e.g. population mean, `μ`) and not the sample statistics (e.g. sample mean, `x_hat`). Note that the population parameter is unknown while the sample statistic is measured using the observed data and hence there is no point in hypothesizing about it. 
+    * Always construct hypotheses about population parameters (e.g. population mean, `μ`) and not the sample statistics (e.g. sample mean, `x_bar`). Note that the population parameter is unknown while the sample statistic is measured using the observed data and hence there is no point in hypothesizing about it. 
     * Define the null value as the value the parameter is set to equal in the null hypothesis. 
     * Note that the alternative hypothesis might be one-sided (μ < or > the null value) or two-sided (μ ≠ the null value), and the choice depends on the research question
 
   * Define a **p-value** as the conditional probability of obtaining a sample statistic at least as extreme as the one observed given that the null hypothesis is true: `p−value = P(observed or more extreme sample statistic | H0 true)`
-  * Calculate a **p-value** as the area under the normal curve beyond the observed sample mean (either in one tail or both, depending on the alternative hypothesis). Note that in doing so you can use a *Z-score*, where `Z = (point estimate − null value) / SE` or `Z = (x_hat - μ) / SE` (see `SI.zscore` and `SI.pvalue` functions)
+  * Calculate a **p-value** as the area under the normal curve beyond the observed sample mean (either in one tail or both, depending on the alternative hypothesis). Note that in doing so you can use a *Z-score*, where `Z = (point estimate − null value) / SE` or `Z = (x_bar - μ) / SE` (see `SI.z.score` and `SI.pvalue` functions)
+    * E.g., median's Z-score is positive for the left skewed distribution and negative for the right skewed distribution
   * Infer that if a **confidence interval** does not contain the null value the null hypothesis should be rejected in favor of the alternative
   * Compare the **p-value** to the significance level to make a decision between the hypotheses:
     * If the p-value *is less than the significance level*, reject the null hypothesis since this means that obtaining a sample statistic at least as extreme as the observed data is extremely unlikely to happen just by chance, and conclude that the data provides evidence for the alternative hypothesis
@@ -203,10 +205,62 @@
     * Use a smaller α if Type 1 error is relatively riskier 
     * Use a larger α if Type 2 error is relatively riskier
 
-> * Formulate the framework for statistical inference using hypothesis testing and nearly normal point estimates:
+>
+  * Formulate the framework for statistical inference using hypothesis testing and nearly normal point estimates:
     * Set up the hypotheses first in plain language and then using appropriate notation
     * Identify the appropriate sample statistic that can be used as a point estimate for the parameter of interest
     * Verify that the conditions for the CLT hold (if the conditions necessary for the CLT to hold are not met, note this and do not go forward with the analysis)
     * Compute the SE, sketch the sampling distribution, and shade area(`s`) representing the `p-value`
     * Using the sketch and the normal model, calculate the p-value and determine if the null hypothesis should be rejected or not, and state your conclusion in context of the data and the research question
 
+
+## Week 4
+
+### Bootstrap
+
+  * The basic idea of **bootstrapping** is that inference about a population from sample data (sample → population) can be modeled by resampling the sample data and performing inference on (resample → sample). As the population is unknown, the true error in a sample statistic against its population value is unknowable. In *bootstrap-resamples*, the 'population' is in fact the sample, and this is known; hence the quality of inference from resample data → 'true' sample is measurable.
+  * More formally, the bootstrap works by treating inference of the true probability distribution A, given the original data, as being analogous to inference of the empirical distribution of Ã, given the resampled data. The accuracy of inferences regarding Ã using the resampled data can be assessed because we know Ã. If Ã is a reasonable approximation to A, then the quality of inference on A can in turn be inferred.
+  * To construct a *bootstrap distribution* see function `SI.boot`
+  * Construct bootstrap confidence intervals using one of the following methods (see function `SI.boot.confidence_interval`):
+    * *Percentile method*: XX% confidence level is the middle XX% of the bootstrap distribution. 
+    * *Standard error method*: If the standard error of the bootstrap distribution is known, and the distribution is nearly normal, the bootstrap interval can also be calculated as `x_boot ± z * SE_boot`
+    * Recognize that when the bootstrap distribution is extremely skewed and sparse, the bootstrap confidence interval may not be reliable
+
+### Paired data
+
+  * Define observations as **paired** if each observation in one dataset has a special correspondence or connection with exactly one observation in the other data set
+  * Carry out inference for paired data by first subtracting the paired observations from each other, and then treating the set of differences as a new numerical variable on which to do inference (such as a confidence interval or hypothesis test for the average difference).
+
+### Difference of two means
+
+  * Calculate the *standard error* of the *difference between means of two independent samples* as `SE = sqrt( (sd_1^2 / num_1) + (sd_2^2 / num_2) )` and use this standard error in hypothesis testing and confidence intervals comparing means of independent groups
+  * Recognize that a good interpretation of a confidence interval for the difference between two parameters includes a *comparative statement* (mentioning which group has the larger parameter; see function `by`)
+  * Recognize that a confidence interval for the difference between two parameters that doesn't include 0 is in agreement with a hypothesis test where the null hypothesis that sets the two parameters equal to each other is rejected
+
+### Student's T distribution
+
+  * Means of small samples (n is less than 30) follow the t distribution (instead of the normal, z, distribution)
+  * Note that the t-distribution has a single parameter, degrees of freedom, and as the degrees of freedom increases this distribution approaches the normal distribution (see functions `SI.t.score`, `SI.t.confidence_interval` and `SI.t.pvalue`)
+  * Use a t-statistic, with *degrees of freedom* `df = n−1` for inference for a population mean using data from a small sample:
+`CI: x_bar ± t_df * SE`, `HT: T_df = (x_bar − μ) / SE`, where `SE = sd / sqrt(n)` (see function `SI.t.confidence_interval` and `SI.t.pvalue`)
+  * Use a t-statistic, with *degrees of freedom* `df = min(n_1 - 1, n_2 − 1)` for inference for difference between means of two population means using data from two small samples, where `SE = sqrt( (sd_1^2 / n_1) + (sd_2^2 / n_2) )`
+  * Make note of the *pooled standard deviation* but use it in rare circumstances where the standard deviations of the populations being compared are known to be very similar: `s_pooled = sqrt ( (s_1^2 * (n_1 - 1) + s_2^2 * (n_2 -1)) / (n_1 + n_2 -2) )`
+  * How to obtain a p-value for a t-test: `pt(T, df)` (e.g. `pt(1.75, 19, lower.tail = F)`)
+  * How to calculate a critical t-score (t_df) for a confidence interval: 
+
+### ANOVA[^1]
+
+  * Define **analysis of variance (ANOVA)** as a statistical inference method that is used to determine - by simultaneously considering many groups at once - if the variability in the sample means is so large that it seems unlikely to be from chance alone
+  * Recognize that the null hypothesis in ANOVA sets all means equal to each other, and the alternative hypothesis suggest that at least one mean is different: `H0: μ1=μ2=...=μk` and `HA: At least one mean is different`
+  * List the conditions necessary for performing ANOVA:
+    * the *observations* should be *independent within and across groups*
+    * the *data within each group* are *nearly normal*
+    * the *variability across the groups* is *about equal*
+    * use graphical diagnostics to check if these conditions are met (boxplots)
+  * Use `SI.anova` function
+  * Note that conducting many t-tests for differences between each pair of means leads to an increased Type 1 Error rate, and we use a corrected significance level (Bonferroni correction, `α⋆ = α/K`, where `K` is the number of comparisons being considered, `K = k * (k - 1) / 2`,  where `k` is the number of groups; see `combn` function) to combat inflating this error rate
+  * Note that it is possible to reject the null hypothesis in ANOVA but not find significant differences between groups when doing pairwise comparisons (see `SI.anova.pairwise` function)
+
+## Footnotes:
+
+[^1]: For more information on ANOVA and `inference` function see [here](http://stackoverflow.com/questions/26197759/inference-function-insisting-that-i-use-anova-versus-two-sided-hypothesis-test).

@@ -28,11 +28,11 @@ hist(pop) ; hist(sampling_dst)
 #
 
 # Calculates the CI of the population
-SI.confidence_intreval <- function(confidence_level, sample_size, muhat = 0, sigmahat = 1) {
+SI.confidence_intreval <- function(confidence_level, sample_size, mu = 0, sigma = 1) {
 # calculates the CI of the population given the CL and the sample's size, mean and variance
     value <- (1 - confidence_level) / 2
-    standard_error <- sigmahat / sqrt(sample_size)
-    return(c(qnorm(value, muhat, standard_error), qnorm(confidence_level + value, muhat, standard_error)))
+    standard_error <- sigma / sqrt(sample_size)
+    return(c(qnorm(value, mu, standard_error), qnorm(confidence_level + value, mu, standard_error)))
 }
 
 # Calculates the needed sample size
@@ -48,8 +48,8 @@ SI.sample_size <- function(sigma, margin_of_error, confidence_level) {
 #
 #   pnorm() takes values from a distribution as an input, and returns the probability with which that value
 #           occurs in a given distribution
-#   qnorm() - on the contrary - takes the probability as an input, and returns the value occuring with that 
-#           probability in a given distribution
+#   qnorm() - on the contrary - takes the probability as an input, and returns the value occurring with  
+#           that probability in a given distribution
 #
 
 # HYPOTHESIS TESTING ####
@@ -61,14 +61,20 @@ SI.zscore <- function(mu, sigma, sample_size, test_value) {
 }
 
 # Calculates p-value
-SI.pvalue <- function (mu, sigma, sample_size, test_value, 
-                       test_value_two = NULL, two_sided = F, lower_tail = F) {
+SI.pvalue <- function (mu, sigma, sample_size, test_value_left = NULL, test_value_right = NULL) {
 # calculates p-value, given mean and variance of the population and mean and size of the sample
-    if (two_sided) {
-           return( pnorm((test_value - mu)/(sigma/sqrt(sample_size)), lower.tail = T) 
-                   + pnorm((test_value_two - mu)/(sigma/sqrt(sample_size)), lower.tail = F) )
-    } else {
-           return(pnorm((test_value - mu)/(sigma/sqrt(sample_size)), lower.tail = lower_tail))
+    if (is.null(test_value_left) && is.null(test_value_right)) {
+        stop("No values to test provided")
     }
+    if (!is.null(test_value_left) && is.null(test_value_right)) {
+        return(pnorm((test_value_left - mu)/(sigma/sqrt(sample_size))))
+    } 
+    if (is.null(test_value_left) && !is.null(test_value_right)) {
+        return(pnorm((test_value_right - mu)/(sigma/sqrt(sample_size)), lower.tail = F))
+    } 
+    if (!is.null(test_value_left) && !is.null(test_value_right)) {
+        return( pnorm((test_value_left - mu)/(sigma/sqrt(sample_size)), lower.tail = T) 
+                   + pnorm((test_value_right - mu)/(sigma/sqrt(sample_size)), lower.tail = F) )
+    } 
 }
 
