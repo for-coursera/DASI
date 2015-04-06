@@ -246,7 +246,7 @@
   * Use a t-statistic, with *degrees of freedom* `df = min(n_1 - 1, n_2 − 1)` for inference for difference between means of two population means using data from two small samples, where `SE = sqrt( (sd_1^2 / n_1) + (sd_2^2 / n_2) )`
   * Make note of the *pooled standard deviation* but use it in rare circumstances where the standard deviations of the populations being compared are known to be very similar: `s_pooled = sqrt ( (s_1^2 * (n_1 - 1) + s_2^2 * (n_2 -1)) / (n_1 + n_2 -2) )`
   * How to obtain a p-value for a t-test: `pt(T, df)` (e.g. `pt(1.75, 19, lower.tail = F)`)
-  * How to calculate a critical t-score (t_df) for a confidence interval: 
+  * How to calculate a critical t-score (t_df) for a confidence interval: `qt((1 - (1 - CI)/2), df = n - 1)`
 
 ### ANOVA[^1]
 
