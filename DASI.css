@@ -1,0 +1,11 @@
+/* Center the header */
+#header {
+    text-align: center}
+/* Adjust the size of the footnotes */
+.footnotes {
+    font-size: 0.8em}
+/* Uncomment the following lines to add pagebreaks */
+div#TOC, div[id^='unit-'], div#appendix {
+    display: block;
+    page-break-after: always;
+    overflow: visible !important;}

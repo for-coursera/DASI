@@ -1,3 +1,5 @@
+# @knitr MAIN_MAIN
+
 # SKEWED NORMAL DISTRIBUTION ####
 
 # Generates a skewed normal distribution
@@ -27,13 +29,48 @@ SI.bitono <- function(n, p) {
     return(vec)
 }
 
+# BAYESIAN TREE ####
+
+# Calculates the Bayesian inference (1st level)
+SI.bayes.tree <- function(outcomes) {
+    compliments <- 1 - outcomes
+    probs <- as.vector(rbind(outcomes, compliments))
+    empty <- c("")
+    probs <- c(empty, probs)
+    rez <- c()
+    rez[1] <- as.numeric(probs[2]) * as.numeric(probs[4])
+    rez[2] <- as.numeric(probs[2]) * as.numeric(probs[5])
+    rez[3] <- as.numeric(probs[3]) * as.numeric(probs[6])
+    rez[4] <- as.numeric(probs[3]) * as.numeric(probs[7])
+    return(rez)    
+}
+
 # STANDARD ERROR ####
 
-# Caclulates the standard error
+# Caclulates the standard error for a normal distribution
 SI.standart_error <- function(sigma, sample_size) {
     # caclulates the standard error given the variance and the size of a sample 
     tmp <- sigma^2/sample_size
     if (length(sigma) > 1) {
+        se <- sqrt(sum(tmp))
+    } else {
+        se <- sqrt(tmp)
+    }
+    return(se)
+}
+
+# Caclulates the standard error for the distribution of proportions
+SI.prop.standart_error <- function(population_proportion, sample_size, pool = FALSE) {
+    # caclulates the standard error given the proportion of a population and the size of a sample 
+    if (pool) {
+        pooled_proportion <- sum(population_proportion) / sum(sample_size)
+        return( sqrt( 
+                (pooled_proportion * (1 - pooled_proportion) / sample_size[1]) + 
+                (pooled_proportion * (1 - pooled_proportion) / sample_size[2])
+                ) )
+    }
+    tmp <- (population_proportion * (1 - population_proportion)) / sample_size
+    if (length(population_proportion) > 1) {
         se <- sqrt(sum(tmp))
     } else {
         se <- sqrt(tmp)
@@ -57,12 +94,19 @@ SI.confidence_intreval <- function(confidence_level, mu, standard_error) {
 }
 
 # Calculates the needed sample size
-SI.sample_size <- function(sigma, margin_of_error, confidence_level) {
+SI.sample_size <- function(margin_of_error, sigma, confidence_level) {
     # calculates the needed sample size, given the standard deviation of a population, 
     # the desired margin of error and the confidence level of a projected sample
     z <- qnorm((1 - confidence_level) / 2)
     size <- ((z * sigma) / margin_of_error) ^ 2
     return(ceiling(size))
+}
+
+SI.prop.sample_size <- function(margin_of_error, population_proportion, confidence_level) {
+    # calculates the needed sample size, given the standard deviation of a population, 
+    # the desired margin of error and the confidence level of a projected sample    
+    z <- qnorm((1 - confidence_level) / 2)
+    return(ceiling(z^2 * population_proportion * (1 - population_proportion) / margin_of_error ^ 2))
 }
 
 # Important Reminder:
@@ -154,9 +198,18 @@ SI.boot.confidence_interval <- function(data, confidence_interval = 0.9, method 
 # STUDENT'S T DISTRIBUTION ####
 
 # Calculates the t-score
-SI.t.score <- function(confidence_level, sample_size) {
-    # calculates the z-score, given the proposed test value abd the mean and the standard error of a sample
-    return( qt((1 - confidence_level) / 2, sample_size - 1) )
+SI.t.score <- function(confidence_level = NULL, confidence_interval = NULL, sample_size) {
+    # calculates the t-score, given the confidence level or the confidence interval & the size of a sample
+    if (is.null(confidence_level) && is.null(confidence_interval)) {
+        stop("Please, provide thr confidence level or the confidence interval")
+    }
+    if (is.null(confidence_interval)) {
+        return( qt((1 - (1 - confidence_level) / 2), sample_size - 1) )
+    }
+    if (is.null(confidence_level)) {
+        return( qt((1 - (1 - confidence_interval) / 2), sample_size - 1) )
+    }
+    
 }
 
 # Calculates the CI for a population
@@ -272,4 +325,84 @@ SI.anova_pairwise <- function(list_of_distributions, significance_level = 0.05) 
         print("Failed to reject null hyphothesis for the pair(s): ")
         print(fail)
     }
+}
+
+# CHI-SQUARE ####
+
+# Calculates the chi-square
+SI.chisq <- function(observed, expected) {
+    # calculates the chi-square given the vectors of observed and expected outcomes
+    if (length(observed) != length(expected)) {
+        stop("Check data, please")
+    }
+    return(sum( (observed - expected)^2 / expected ))
+}
+
+# Calculates the p-value for a chi-square distribution
+SI.chisq.pvalue <- function (chisq, number_of_levels) {
+    # calculates the p-value given the chi-square statistic and the number of categorical levels
+    # goodness of fit: one categorical variable, more than two levels
+    return(pchisq(chisq, number_of_levels - 1, lower.tail = F))
+}
+
+SI.chisq.independence_test <- function (chisq, number_of_levels) {
+    df <- (number_of_levels[1] - 1) * (number_of_levels[2] - 1)
+    return(pchisq(chisq, df, lower.tail = F))
+}
+
+# MULTIPLE LINEAR REGRESSION MODELS ####
+
+# Fits separate models for separate categories of a categorical variable on a scatterplot
+SI.model.cat_separated <- function(model, ...){
+    # fits separate models for separate categories of a categorical variable on a scatterplot
+    # the code provided by DASI Team
+    if(class(model)!="lm"){
+        warning("Model must be the output of the function lm()")
+    }
+    
+    if(length(model$xlevels)!=1){
+        warning("Model must contain exactly one categorical predictor")
+    }
+    
+    if(length(model$coef)-length(model$xlevels[[1]])!=1){
+        warning("Model must contain exactly one non-categorical predictor")
+    }
+    
+    palette <- c("#E69F00", "#56B4E9", "#D55E00", "#009E73", "#CC79A7", "#F0E442", "#0072B2")
+    
+    baseIntercept <- model$coef[1]
+    nLines <- length(model$xlevels[[1]])
+    intercepts <- c(baseIntercept, rep(0, nLines-1))
+    indicatorInd <- c(1, rep(0, nLines)) # used to find slope parameter by process of elimination
+    
+    for(i in 1:(nLines-1)){
+        indicatorName <- paste(names(model$contrasts),model$xlevels[[1]][1+i], sep = "")
+        intercepts[i+1] <- baseIntercept + model$coef[names(model$coef)==indicatorName]
+        indicatorInd <- indicatorInd + (names(model$coef)==indicatorName)
+    }
+    
+    slope <- model$coef[!indicatorInd]
+    
+    num_pred = which(names(model$model[,-1]) != names(model$xlevels)) + 1
+    cat_pred = which(names(model$model[,-1]) == names(model$xlevels)) + 1
+    
+    model$model$COL = NA
+    model$model$PCH = NA
+    for(i in 1:nLines){
+        model$model$COL[model$model[,cat_pred] == levels(model$model[,cat_pred])[i]] = adjustcolor(palette[i],0.40)
+        model$model$PCH[model$model[,cat_pred] == levels(model$model[,cat_pred])[i]] = i+14
+    }
+    
+    plot(model$model[,1] ~ jitter(model$model[,num_pred]), col = model$model$COL, pch = model$model$PCH,
+         ylab = names(model$model)[1],
+         xlab = names(model$model)[num_pred])
+    
+    for(j in 1:nLines){
+        abline(intercepts[j], slope, col = palette[j], lwd = 2, ...)
+    }
+    
+    if(slope > 0){legend_pos = "bottomright"}
+    if(slope < 0){legend_pos = "topleft"}  
+    
+    legend(legend_pos, col = palette[1:nLines], lty = 1, legend = levels(model$model[,cat_pred]), lwd = 2)
 }

@@ -1,0 +1,828 @@
+In this video we're going to review
+frequentist versus bayesian inference.
+In the frequentist paradigm we make
+decisions based on p values.
+And in the bayesian paradigm we make our
+decisions using posterior probabilities.
+We're going to work with the same problem,
+the same data set, use these two
+different approaches, and check to see if
+we arrive at the same answer or not.
+And if we don't, we're going to discuss
+why that might be the case.
+This is going to be a somewhat calculation
+heavy video because we
+are going to review a whole bunch of
+concepts at once here.
+So we are going to keep the example light,
+and work with M&Ms.
+Suppose that we have a population of M&Ms,
+and in this
+population the percentage of yellow M&Ms
+is either 10 or 20%.
+We are only considering these two
+possibilities here.
+You have been hired as a statistical
+consultant to
+decide whether the true percentage of
+yellow M&Ms is 10%.
+You're being asked to make a decision.
+And there are associated payoffs and
+losses that you should consider.
+So before we move on, let's check to see
+what these payoffs and losses might be.
+Here's your decision table.
+We said that the true state of the
+population
+can either be 10% yellow M&Ms or 20%
+yellow M&Ms.
+Say that you decide that the percentage of
+yellow M&Ms is
+indeed 10% and that is the true state of
+the population.
+Then, you made the correct choice, and
+your boss gives you a bonus.
+Say on the other hand, you decided that
+the true proportion of yellow M&Ms is 10%,
+but
+the true state of the population is 20%,
+you
+made the wrong choice, and you lose your
+job.
+You might also decide that the percentage
+of yellow M&Ms is 20%, and if that
+is your decision but the true state says
+that percentage of yellow M&Ms is 10%.
+Once again, you've made a mistake, so
+you'd lose
+your job, or if you decide that the true
+proportion
+is 20%, and that is indeed the case, you
+make
+the right decision, and your boss gives
+you a bonus.
+Obviously, you're going to be making this
+decision using data.
+You can buy a random sample of M&Ms from
+this population.
+Each M&M is going to cost you $200, which
+is indeed pretty steep.
+But remember data collection can be pretty
+costly.
+And you must buy five M&Ms at a time.
+So you get to spend a $1,000 at a time.
+You have a total of $4,000 to spend, which
+means
+that you could either buy five, ten, 15,
+or 20 M&Ms.
+And the decision is up to you.
+Let's start with how we would set this
+problem up under the frequentist paradigm.
+Your hypotheses are the null hypothesis,
+is that the percentage of M&Ms
+is 10% and the alternative is that the
+percentage of M&Ms is 20%.
+The test statistic that you're going to be
+using is going to be the number of yellow
+M&Ms in the sample that you collect,
+depending
+on whatever you decide your sample size to
+be.
+And remember that the definition of the p
+value is the probability of
+observing this many or more yellow M&Ms,
+given that the null hypothesis is true.
+And when we say this many, what we mean is
+however many
+you observe in the sample that you decide
+to buy from this population.
+The first question you need to answer is
+how many M&Ms would you buy?
+Five, ten, 15, or 20?
+And before you answer that question, think
+for a second.
+What is the cost or the benefit or, of
+buying fewer or more M&Ms?
+The benefit obviously is, as you increase
+your sample
+size, your decisions are going to be more
+reliable.
+And remember that the cost of making a
+wrong decision is pretty high here.
+You could lose your job.
+So you want to make sure you are fairly
+confident of your decision.
+At the same time though, the data
+collection is costly as well.
+So you don't want to just willy nilly go
+out
+and buy large samples if you don't need
+them, right?
+So, if you believe that you could actually
+make a correct decision using a smaller
+sample size, you might choose to do so and
+keep your money in your pocket.
+I'm going to choose to be adventurous and
+stick
+with a small sample size because I want to
+keep
+some of my money on the data collection
+end,
+and go with a sample size of five only.
+However, if you've decided to go with a
+larger sample size,
+you're going to get to see how your
+decision would pan
+out because we're actually going to
+consider all possibilities in our
+calculations, and take a look at what
+decisions we would have made.
+If we had gone with larger sample sizes as
+one, the next question
+you want to answer is what significance
+level are you going to use.
+Remember, in hypothesis testing we start
+by setting
+our hypothesis, then we collect data, then
+we calculate
+our test statistic and our p value, and
+then
+we compare this p value to our
+significance level.
+And if the p value is smaller than the
+significance
+level, we reject the null hypothesis in
+favor of the alternative.
+In this course we've seen a significance
+level of 5% being used pretty often.
+And that is the case in literature and in
+practice as well.
+But you might choose to go with something
+else.
+And in order to determine what threshold
+you want to use
+for yourself, we want to remind ourselves,
+what is the significance level?
+Remember that the significance level is
+also
+the probability of the type one error
+rate.
+So really the decision on what
+significance level to set is about what
+are the pros and cons of using a lower or
+a higher significance level.
+And since this is equivalent to the
+probability of a type one
+error rate, that is rejecting the null
+hypothesis when it's actually true.
+We want to really think about, do we want
+to keep this error rate as low as
+possible?
+Which seems like obviously we do.
+But at the same time, there may be some
+benefits
+from keep the significance level on the
+slightly higher side.
+Because we want to make sure that any
+signal that
+we have in the data, we're able to capture
+it.
+So if you set a very, very conservative
+significance level.
+Meaning a really, really tiny alpha, it
+might be that you
+might miss a significant effect when
+you're doing your hypothesis test.
+We're going to stick, for this example,
+with a norm that we've
+been using in this course, and stick with
+a significance level of 5%.
+So, just to recap, our null hypothesis is
+that the percentage of yellow M&M's is
+10%.
+An alternative hypothesis is that the
+percentage of yellow M&Ms is 20%.
+Here's our sample.
+Remember I had decided to stick with a
+sample size of five.
+So, I have a red, a green, a yellow, a
+blue and an orange M&M.
+In this case, the number of yellow M&Ms in
+the first five draws is one.
+Remember, the P value is the probability
+of observed or more extreme outcome and
+that
+it's extreme in the direction of the
+alternative
+hypotheses given that the known hypotheses
+is true.
+So we can phrase this for this question,
+the
+probability of one or more yellows, given
+that the
+proportion of yellow M&M is 10% and
+remember that
+we're also given a sample size of five
+here.
+So how are we going to calculate this
+probability?
+What we have here is a binomial outcome,
+with probability
+of success of 0.10 and a sample size of
+five.
+And what we want to find is the probably
+that
+the number of successes is greater than or
+equal to one.
+This is going to be equivalent to 1
+minus the probability of success being
+equal to 0.
+Let's pause for a moment and think about
+why this is the case.
+In a sample space with five trials, you
+could have zero successes, one
+success, two successes, three successes,
+four successes, or five successes.
+If you're interested in number of
+successes being
+greater than or equal to one, that means
+the only thing you're not interested in is
+the number of successes being equal to
+zero.
+In this case these two outcomes are
+complements of each other.
+So, therefore probability that the number
+of successes is greater than or equal to
+one, can be calculated 1 minus the
+probability of successes equaling zero.
+Zero success basically means five failures
+and the probably of
+a failure is 0.9 since the probably
+success was 0.1.
+So here what we have 1 minus 0.9 to the
+fifth power.
+Which is going to be equal to
+approximately 41% or 0.41.
+So our p value is approximately 0.41,
+which is greater than R
+significance level of 5% so we would fail
+to reject the null hypothesis.
+We're going to use this table to take a
+note of our calculations as we go along.
+So, in this case, we saw a sample size of
+five.
+And the number of yellow M&Ms in the first
+five was one.
+And we calculated the P value as the
+probability of k or more yellow.
+So, that's one or more yellows for the
+sample that we were working with.
+Given that the true proportion of yellow
+M&Ms was 10%.
+And we calculated a p value of 0.41.
+In this case, with a p value of 0.41, we
+would fail to reject the null hypothesis.
+And conclude that these data do not
+provide convincing
+evidence that the percentage of yellow
+M&Ms is 20%.
+And if we have to make a decision between
+the
+two, we would stick with p is equal to
+10%.
+Next let's repeat these calculations if we
+had
+decided to go with the sample size of ten.
+This is what the sample size looks like.
+So our first five are exactly the same,
+and
+our additional size are blue, blue, green,
+orange, and yellow.
+There are two yellow M&Ms in this sample
+of ten,
+therefore our P value can be calculated as
+probability of
+two or more yellows, given that the
+probability of success
+is 10% and we have a sample size of ten.
+Once again, we can use the binomial
+distribution.
+The p is still 0.10, but this time our
+sample size is ten.
+And our p value is the probability that
+the
+number of successes is greater than or
+equal to 2.
+How are we going to calculate this?
+Well, we can simply make use of R real
+quick.
+Remember that to calculate binomial
+probabilities, we use the function dbinom
+and the outcomes that we're interested in
+are anything between two and ten.
+So we want to calculate the individual
+binomial probabilities
+for two, three, four all the way up to
+ten.
+And sum these over.
+The second argument we plug in is our
+sample size.
+That's ten.
+And the third argument that we plug in is
+our probability of success 0.1.
+This yields a probability of roughly 26%.
+Therefore our P value is roughly 26%,
+which is once again
+greater than 5%, so we would fail to
+reject the null hypothesis.
+Let's go back to our note sheet and take a
+note of when n is equal to 10, the
+number of yellow M&M's was 2, and our p
+value
+that we calculated was 0.26 with p value
+of 0.26.
+We stick with the null hypothesis, we
+don't
+reject it and pay favor of the
+alternative.
+Now let's see what would happen if we had
+a sample size of 15 M&Ms.
+Once again, the first ten are the same.
+The next batch of five is yellow, red,
+blue, red, red.
+So the number of yellow M&Ms in this batch
+of 15 is three.
+Therefore our P value can be calculated as
+probability of three or more yellows.
+Given that the probability of success is
+0.10 and we have a sample size of 15.
+You know the drill by now.
+We have a binomial distribution where p is
+equal to 0.10 and n is equal to 15.
+So how do we calculate the p value.
+The p value is simply probability that the
+number of successes is
+greater than or equal to three, and making
+use of r we
+can see that this probability comes out to
+be roughly 18%, and,
+with a p value of approximately 18%, which
+is greater than 5%.
+We would once again fail to reject the
+null hypothesis.
+Well, add this to our little score card,
+as well.
+And, once again, see that we would stick
+with the null hypothesis.
+And, not reject it in favor of the
+alternative.
+To complete the story, let's take a look
+if what would
+happen if we had decided on a sample size
+of 20.
+This is what the sample size would look
+like, and the additional
+five, the new batch that we purchased, is
+green, orange, red, blue, yellow.
+And in this case, the number of yellow
+M&Ms is four, so
+our P value can be calculated as
+probability as four or more yellows.
+Given that the probability of success is
+10% and we have a sample size of 20.
+With a binomial distribution, where P is
+equal to 0.10 and N is equal to 20.
+We can calculate the P value as the
+probability of number of successes being
+greater than
+or equal to 4, and we can quickly use R to
+give us this probability once again.
+Remember, we're using the dbinom function
+to evaluate
+all binomial probabilities, for number of
+successes ranging
+from 4 to 20 with a sample size of 4 and a
+probability of success of 10%.
+And we want to sum over all of these, and
+this yields a probability of roughly 13%
+with a p value of roughly 13% we once
+again fail to reject the knot hypothesis.
+So with every single possible approach
+that we
+could have taken in terms of our sample
+size.
+Our decision would be to stick with the
+null
+hypothesis, and not reject it in favor of
+the alternative.
+Let's go back to our decision table.
+Basically, our decision is to stick with
+percentage of yellow M&M's is equal to
+10%.
+So, we're on the first row, here.
+And, we know that one of two things have
+happened.
+Either the true percentage of yellow M&Ms
+is 10%,
+and you made the right decision, and your
+boss
+gives you a bonus, or the true percentage
+of
+yellow M&Ms is 20%, and you lose your job.
+Well actually, I happen to know the true
+state of the
+population, because I have been selecting
+these M&Ms randomly from this population.
+And remember this is what one of your
+samples looked like.
+This is the largest sample that you have.
+And at each stage, we had exactly 20% M&Ms
+actually, one out of
+5, two out of 10, three out of 15, four
+out of 20.
+So really the true proportion of M&Ms in
+this population is 20% and
+what happen is you made the wrong decision
+and you are going to lose your job.
+Next we're going to start over with a
+Bayesian approach.
+So we're going start over with 1:1 odds,
+that the percentage of yellows is 10% or
+20%.
+These are going to be our prior
+probabilities, we're starting
+with 1:1 odds, because we really don't
+know any better.
+So starting without seeing any data, the
+probability that we
+assume that the true percentage of yellow
+of M&Ms is
+10% is 0.5 and the probability that we
+assume that
+the true percentage of yellow M&Ms is 20%
+is also 0.5.
+We're going to use the same data set and
+Bayes' theorem, to calculate the
+probability of either hypothesis being
+true given the observed data.
+So that is our posterior probability.
+We start with our priors, we incorporate
+our data and then we calculate our
+posterior
+probability as a probability as of the
+given hypothesis being true, given the
+observed data.
+Let's remind ourselves quickly of the
+Bayes' theorem.
+The Bayes theorem states that A given B.
+Is equal to the probability of A and B
+divided by the probability of E.
+So for example, if we want to find the
+probability
+that 10% of the M&Ms are yellow given the
+data that
+we observe, we could write this out as
+probability of data,
+and 10% yellow divided by the probability
+of the observed data.
+And this could further be expanded, to say
+probability
+of data given 10% yellow, times
+probability 10% yellow.
+Divided by the probability of observed
+data.
+So what we've done in the numerator here,
+is actually used the Bayes' theorem one
+more time.
+To say probability of b given a.
+Times probability of a, is also going to
+be
+the probability of p and a because
+remember,
+that probability of a and b, and
+probability
+of b and a are equivalent to each other.
+Then, using the same idea, we could
+calculate
+the probability of 20% yellow, given the
+observed data.
+As, probability of the observed data,
+given 20% yellow.
+Times probability of 20% yellow, divided
+by the observe data.
+Or, since we know that the only two
+possible choices we're considering are 10%
+yellow or 20% yellow, these two outcomes
+must be compliments of each other.
+So probability of 20% yellow, given the
+data.
+Could also be calculated as simply 1 minus
+the probability of 10% yellow given the
+data.
+That's a lot of formulas.
+Let's go ahead and put this into practice
+and take it one
+step at a time to see what we were exactly
+talking about there.
+Let's start with a sample size of five
+again.
+Remember, this is what the first batch of
+five looked like.
+So, we had one yellow M&M here.
+That was our observed data.
+Our prior probabilities are 50% for each
+of the hypothesis we're considering and
+the posterior
+probability of our hypothesis of 10%
+yellow is
+simply probability of p is equal to 10%.
+Given the observed data.
+So how might we go about calculating this.
+Let's remind ourselves.
+Our data says that our sample sizes is
+five, and our number of successes is one.
+That's the one yellow in the sample size
+of five.
+The posterior probability that we want to
+calculate is P
+is equal to 10% given the data that we
+have observed.
+We show that in the numerator this means
+probability of the observed data given P
+is equal to 10% times the prior
+probability that P is equal to 10%.
+In the denominator, we need to consider
+the
+two possible ways the data could have
+arisen.
+We could have observed these data because
+p was
+equal to 10%, or because p was equal to
+20%.
+And when we say or in statistics, we add
+the two probabilities.
+So the two probabilities that we want to
+add in the denominator are either
+the same as what we have in the numerator,
+that is one option.
+Or the probability that the data occurred,
+given that p was equal to
+20%, times the prior probability of p
+being equal to 20%.
+How do we calculate this first probability
+data given p equals 10%?
+This is simply a binomial probability
+where the number of successes
+is one, the sample size is five and the
+probability of success is 0.1.
+So, that comes out to be roughly 33%.
+So in the numerator we have 0.33 times
+0.5, which is
+the prior probability we assigned to p
+being equal to 10%.
+That same quantity is going to appear in
+our denominator but next
+we consider the other possible option, the
+probability of these data happening.
+That is one success out of five trials.
+If the true probability of success was,
+instead
+of 10, 20%, how would we calculate this
+probability?
+That comes out to be 0.41 times the 0.5
+for the prior probability of p being equal
+to 20%.
+This gives us a posterior of roughly 44%.
+Let's start keeping a scorecard for the
+posterior probabilities
+that we obtain from the Bayesian approach,
+as well.
+We saw that in this first batch of five
+M&Ms, where the number of yellow M&Ms was
+1.
+Our posterior probability for the
+hypothesis that
+percentage of yellow M&Ms is 10% was 0.44.
+Therefore, the posterior probability for
+the percentage of yellow M&Ms being
+20%, given the observed data, is going to
+be the complement of this, 0.56.
+To make a decision between these two
+hypotheses, we
+want to think about which one is more
+likely.
+Well, in this case, the second hypothesis
+is more likely, because the posterior
+probability associated
+with the second hypothesis is slightly
+higher than
+the posterior probability associated with
+the first hypothesis.
+We could actually get a little fancier
+here, and start considering some costs
+associated with
+choosing one hypothesis over another and
+consider
+these posterior probabilities in context
+of these costs.
+But we're just going to assume that those
+are equal for the two hypotheses,
+and simply pick the hypothesis with the
+higher posterior since that is basically
+the hypothesis.
+That we are determining to be more likely
+given the data that we have observed.
+Lets see how our decisions would pan out
+if we had the sample size of ten.
+Remember this is what our sample size
+looked like and we
+had two yellow's out of the ten M&M's that
+we sampled.
+And our prior probabilities are going to
+stay the same.
+Again, we're kind of starting from scratch
+and assuming how would
+the calculations pan out if we had a
+sample size of ten.
+And our posterior probability would still
+be calculated as the
+probability of P equaling to 10% given the
+observed data.
+In this case our observed data is
+different and
+is equal to ten, k is equal to two.
+The calculation of our posterior
+probability will be
+very similar to what we had done before
+indeed.
+The components that go into the
+calculations of the posterior are the
+same.
+What's going to change is the values of
+the probability
+of the observed data given p is equal to
+10%.
+or the probability of the observed data
+given P
+is equal to 20% because our data have
+changed.
+In this case remember we have said our
+sample
+size is ten and our number of successes is
+two.
+Data given P is equal to 10% comes out to
+be 19% and the probability
+of the data given P is equal to 20% comes
+out to be roughly 0.3.
+In this case our posterior probability is
+calculated to be approximately 39%.
+So we can enter this next posterior
+probability in our score card, as when n
+is equal to 10, and the number of yellow
+M&Ms in the first batch is 2.
+Our posterior probability associated with
+the hypothesis.
+Percentage of yellow M&Ms is 10% is
+calculated to be approximately 39%, and
+therefore the
+posterior count associated with the other
+hypothesis, is
+going to be 1 minus 0.39, or 0.61.
+In this case, once again, the
+posterior probability associated with the
+second hypothesis
+is higher, so we would decide to choose
+the second hypothesis over the first.
+Hopefully we're starting to get the hang
+of this.
+What would happen if we had a sample size
+of 15?
+This is is what sample would look like, we
+had three yellow M&Ms.
+Our priors are exactly the same.
+Our posterior is exactly the same that
+we're interested in.
+What has changed is our data.
+In this case our sample size is 15, and
+our number of successes is three.
+Our posterior probability can be
+calculated using the same approach.
+And once again, what changes are going to
+be the probability
+of the observed data given p is equal to
+10 or 20%.
+And the probability of the observed data
+given p is equal to 10% is roughly 13%.
+And the probability of the observed data
+given pz equals to 20% is roughly
+25% then the posterior probability comes
+out to be roughly 34%.
+Let's go back to our scorecard and enter
+that.
+And then we can once again calculate
+the posterior probability associated with
+the other hypothesis.
+As the complements of 1 minus 0.34, gives
+us 0.66.
+Once again, the posterior probability
+associated with the second hypothesis
+is higher, so if we were choosing based on
+the
+posterior probabilities, we would choose
+the second hypothesis, percentage of
+yellows is 20% over the first percentage
+of yellows as 10%.
+Lastly, let's take a look at a sample size
+of 20.
+This is what our sample of 20 looked like
+and remember we have four yellow M&Ms.
+We are once again using the same priors
+because remember, we're
+at each stage assuming that we were
+starting from scratch and what
+would have been the decision that we make,
+if we had initially
+decided to go with 20 M&Ms is the question
+we're asking here.
+And the posterior probability that we're
+interested in is the
+probability that p is equal to 10% given
+the observed data.
+And what we mean by the observed data is a
+sample size of 20, and a number of success
+of four.
+Going through the motions one more time,
+we can write out the
+calculation of our posterior probability
+in exactly the same way as before.
+And remember, what's changing is the
+probability of the observed
+data given that either of the hypotheses
+that we're evaluating.
+And the first probability of the observed
+data given.
+A 10% rate of success is 0.08 and the
+other one is 0.22.
+Which yields a posterior probability of
+29% roughly.
+A posterior probability of 0.29 associated
+with the first hypothesis.
+Means a posterior probability of one minus
+0.29 or 0.71 associated with a second
+hypothesis.
+And since the posterior probability for
+the
+second hypothesis is higher we would once
+again
+choose the second over the first and
+decide
+that we should stick with 20% yellow M&Ms.
+Here's a summary of all the probabilities
+that we've calculated.
+On the left, we have the results from the
+frequentist approach, our p values.
+And on the right, we have the
+results from the bayesian approach, our
+posterior probabilities.
+And the frequentist approach, our null
+hypothesis was p is equal
+to 10%, and our alternative was p is equal
+to 20%.
+All of our p values were greater than
+our significance level, and therefore at
+each stage,
+we decided to stick with the null and not
+reject it in favor of the alternative.
+In the Bayesian approach, the posterior
+probabilities
+associated with the second hypothesis were
+consistently higher.
+Therefore, using the Bayesian approach at
+each stage.
+We decided to choose the second hypothesis
+over the first one.
+Clearly, the results from the two
+approaches are contradictory,
+but which one seems to be there right
+approach here?
+Well, here we're saying that using the
+Bayesian approach,
+we're deciding to stick with p is equal to
+20%.
+And earlier we had revealed that that was
+indeed
+the true state of the population, so it
+seems
+like that's going to allow you to make the
+right decision, and you get that bonus
+from your boss.
+So in this video, we got a
+chance to review calculating binomial
+probabilities, calculating p
+values, calculating posterior
+probabilities, and we also
+demonstrated that sometimes, the two
+approaches to inference.
+Frequentist or Bayesian, may yield
+slightly different results.
+
